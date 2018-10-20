@@ -169,8 +169,9 @@ other class
     max-width: bp(xl);
     @include bp(xl) {
         max-width: bp(xl);
-        @include rem("margin-left", 20);
-        @include rem("margin-right", 20);
+        @include rem("padding", 0, 20);
+        //@include rem("margin-left", 20);
+        //@include rem("margin-right", 20);
     }
     @include bp() {
         max-width: bp();
