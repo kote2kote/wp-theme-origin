@@ -3,7 +3,9 @@
 	Template Name: Menu List
 */
 //get_template_part('content','hero');
+
 get_header(); ?>
+
 <section class="hero flex">
 <h2 class="heading">メニュー</h2>
 </section>
@@ -111,6 +113,85 @@ get_header(); ?>
 
 <section class="main_menu">
   <div class="section-content cm0">
+
+  
+<?php
+  $arg = array(
+             'posts_per_page' => 4, // 表示する件数
+             'orderby' => 'date', // 日付でソート
+             'order' => 'DESC', // DESCで最新から表示、ASCで最古から表示
+             'category_name' => 'menu_east' // 表示したいカテゴリーのスラッグを指定
+         );
+  $posts = get_posts( $arg );
+  if( $posts ): 
+?>
+  <h4 class="title">投稿で表示してみる</h4>
+  <ul class="main_menu__list row">
+
+<?php 
+foreach ( $posts as $post ) :
+  setup_postdata( $post );
+?>
+    <li class="item col-3 col-4-lg col-6-md col-12-sm">
+      <div class="item_content cm0">
+        <a href="<?php the_permalink(); ?>" class="link">
+          <div class="figure">
+            <figure><?php the_post_thumbnail(); ?></figure>
+            <span class="label cm0">new</span>
+          </div>
+          <div class="line"></div>
+          <div class="detail">
+            <h4 class="menu_name"><?php the_title(); ?></h4>
+            <p>
+              <span class="kakaku"><?php echo get_post_meta($post->ID , 'kakaku_hontai' ,true); ?></span>
+              <span class="zeikomi"><?php echo get_post_meta($post->ID , 'kakaku_zeikomi' ,true); ?></span>
+              <span class="energy"><?php echo get_post_meta($post->ID , 'energy' ,true);echo $energy; ?></span>
+            </p>
+          </div>
+        </a>
+      </div>
+    </li>
+<?php endforeach; ?>
+    </ul>
+<?php
+  endif;
+  wp_reset_postdata();
+?>
+
+<?php
+$args = array(
+  'post_type' => 'menu', /* カスタム投稿名が「gourmet」の場合 */
+  'posts_per_page' => 4, /* 表示する数 */
+); ?>
+ 
+<?php $my_query = new WP_Query( $args ); ?>
+<h4 class="title">カスタム投稿タイプで表示してみる</h4>
+<ul class="main_menu__list row">
+
+<?php while ( $my_query->have_posts() ) : $my_query->the_post(); ?>
+    <li class="item col-3 col-4-lg col-6-md col-12-sm">
+      <div class="item_content cm0">
+        <a href="<?php the_permalink(); ?>" class="link">
+          <div class="figure">
+            <figure><?php the_post_thumbnail(); ?></figure>
+            <span class="label cm0">new</span>
+          </div>
+          <div class="line"></div>
+          <div class="detail">
+            <h4 class="menu_name"><?php the_title(); ?></h4>
+            <p>
+            <span class="kakaku"><?php echo get_post_meta($post->ID , 'kakaku_hontai' ,true); ?></span>
+              <span class="zeikomi"><?php echo get_post_meta($post->ID , 'kakaku_zeikomi' ,true); ?></span>
+              <span class="energy"><?php echo get_post_meta($post->ID , 'energy' ,true);echo $energy; ?></span>
+            </p>
+          </div>
+        </a>
+      </div>
+    </li>
+<?php endwhile; ?>
+</ul>
+<?php wp_reset_postdata(); ?>
+
     <ul class="main_menu__list row">
 
       <li class="item col-3 col-4-lg col-6-md col-12-sm">
